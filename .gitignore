@@ -30,6 +30,7 @@ build/
 local.properties
 *.iml
 # gradle.properties
+
 # node.js
 #
 node_modules/
@@ -72,3 +73,8 @@ dist/
 node_modules/
 aws-exports.js
 awsconfiguration.json
+
+#ENV
+firebase.json
+.env
+android/gradle.properties
