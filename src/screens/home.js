@@ -281,9 +281,9 @@ const HomeScreen = (props) => {
                         <Text style={{ color: "#fff" }}>Converting...</Text>
                     </View>
                 }
-                <View style={{ position: "absolute", top: (Dimensions.get("window").height * 0.5) - 220, opacity: 0.6 }}>
+                <View style={{ position: "absolute", top: (Dimensions.get("window").height * 0.5) - 350, opacity: 0.6, width: 250 }}>
                     {/* <Icon color={"#ABABAB"} name="image" size={170} /> */}
-                    <Image source={require('../assets/ta_quebrando_build.png')}></Image>
+                    <Image style={{ width: '100%'}} resizeMode={'contain'} source={require('../assets/update_new2.png')}></Image>
                 </View>
 
                 <DraggableFlatList
