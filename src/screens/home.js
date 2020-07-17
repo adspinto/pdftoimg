@@ -281,7 +281,7 @@ const HomeScreen = (props) => {
                         <Text style={{ color: "#fff" }}>Converting...</Text>
                     </View>
                 }
-                <View style={{ position: "absolute", top: (Dimensions.get("window").height * 0.5) - 350, opacity: 0.6, width: 400 }}>
+                <View style={{ position: "absolute", top: (Dimensions.get("window").height * 0.5) - 170, opacity: 0.6 }}>
                     <Icon color={"#ABABAB"} name="image" size={170} />
                     {/* <Image style={{ width: '100%'}} resizeMode={'contain'} source={require('../assets/teste_paolla.png')}></Image> */}
                 </View>
