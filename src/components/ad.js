@@ -19,7 +19,8 @@ const Ad = ({ size, type = "banner", screen }) => {
         successModal: BANNER_KEY_SUCCESS_MODAL,
         splash: BANNER_KEY_SPLASH
     }
-    let adUnitId = __DEV__ ? TestIds.BANNER : keys[screen];
+    let adUnitId = keys[screen];
+    // let adUnitId = __DEV__ ? TestIds.BANNER : keys[screen];
 
 
     if (type === "banner") {

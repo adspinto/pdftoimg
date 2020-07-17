@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Image to PDF</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">_hvnzllJXSlXbddejKjGShnZIUk91GelMcuTDx</string>
 </resources>

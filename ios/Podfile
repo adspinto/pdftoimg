@@ -81,6 +81,7 @@ target 'pdftoimg' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+
   target 'pdftoimgTests' do
     inherit! :complete
     # Pods for testing
