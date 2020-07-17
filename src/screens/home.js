@@ -305,7 +305,7 @@ const HomeScreen = (props) => {
                 />
 
                 <View style={{ marginVertical: 5, width: '90%', opacity: convertStatus.status === "pending" ? 0.6 : 1 }}>
-                    <Button color={"#B0B0B0"} onPress={escolher} title={'Choose images'} />
+                    <Button color={"#B0B0B0"} onPress={escolher} title={'Escolha a imagem'} />
                 </View>
 
                 <View style={{ marginVertical: 5, width: '90%', opacity: convertStatus.status === "pending" ? 0.4 : 1 }}>
