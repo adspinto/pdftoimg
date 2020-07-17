@@ -19,7 +19,7 @@ function Routes() {
             <Screen
                 name="Home"
                 component={HomeScreen}
-                options={{ title: 'xX_Samir_Xx' }}
+                options={{ title: 'Imagem para PDF' }}
             />
         </Navigator>
     );
