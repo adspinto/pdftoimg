@@ -282,8 +282,8 @@ const HomeScreen = (props) => {
                     </View>
                 }
                 <View style={{ position: "absolute", top: (Dimensions.get("window").height * 0.5) - 350, opacity: 0.6, width: 400 }}>
-                    {/* <Icon color={"#ABABAB"} name="image" size={170} /> */}
-                    <Image style={{ width: '100%'}} resizeMode={'contain'} source={require('../assets/teste_paolla.png')}></Image>
+                    <Icon color={"#ABABAB"} name="image" size={170} />
+                    {/* <Image style={{ width: '100%'}} resizeMode={'contain'} source={require('../assets/teste_paolla.png')}></Image> */}
                 </View>
 
                 <DraggableFlatList
@@ -305,7 +305,7 @@ const HomeScreen = (props) => {
                 />
 
                 <View style={{ marginVertical: 5, width: '90%', opacity: convertStatus.status === "pending" ? 0.6 : 1 }}>
-                    <Button color={"#B0B0B0"} onPress={escolher} title={'Escolha a imagem'} />
+                    <Button color={"#B0B0B0"} onPress={escolher} title={'Choose images'} />
                 </View>
 
                 <View style={{ marginVertical: 5, width: '90%', opacity: convertStatus.status === "pending" ? 0.4 : 1 }}>
