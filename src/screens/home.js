@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, Button, FlatList, PermissionsAndroid, Modal, Linking, Dimensions, Platform, LayoutAnimation, UIManager, ActivityIndicator } from 'react-native'
+import { View, Text, Button, FlatList, PermissionsAndroid, Modal, Linking, Dimensions, Platform, LayoutAnimation, UIManager, ActivityIndicator, Image } from 'react-native'
 import DocumentPicker from 'react-native-document-picker';
 import ImageItem from '../components/imageItem'
 import RNFetchBlob from 'rn-fetch-blob'
@@ -218,7 +218,6 @@ const HomeScreen = (props) => {
             headerRight: () => (
                 <HeaderButtons HeaderButtonComponent={VectorIconsHeaderButton}>
                     <Item title="Clear" onPress={() => {
-
                         setImageList([])
                     }} />
                 </HeaderButtons>
@@ -271,52 +270,55 @@ const HomeScreen = (props) => {
 
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            {
-                convertStatus.status === "pending" &&
+        
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                {
+                    convertStatus.status === "pending" &&
 
-                <View style={{ position: "absolute", zIndex: 10, justifyContent: "center", alignItems: "center", width: Dimensions.get("window").width, height: Dimensions.get("window").height, backgroundColor: "rgba(0,0,0,0.7)" }}>
-                    <Ad screen={"loading"} size={"MEDIUM_RECTANGLE"} />
-                    <Bar color={'#fff'} progress={progress} useNativeDriver={true} style={{ margin: 10 }} width={Dimensions.get("window").width * 0.8} height={10} />
-                    <Text style={{ color: "#fff" }}>Converting...</Text>
+                    <View style={{ position: "absolute", zIndex: 10, justifyContent: "center", alignItems: "center", width: Dimensions.get("screen").width, height: Dimensions.get("screen").height, backgroundColor: "rgba(0,0,0,0.7)" }}>
+                        <Ad screen={"loading"} size={"MEDIUM_RECTANGLE"} />
+                        <Bar color={'#fff'} progress={progress} useNativeDriver={true} style={{ margin: 10 }} width={Dimensions.get("screen").width * 0.8} height={10} />
+                        <Text style={{ color: "#fff" }}>Converting...</Text>
+                    </View>
+                }
+                <View style={{ position: "absolute", top: (Dimensions.get("window").height * 0.5) - 220, opacity: 0.6 }}>
+                    {/* <Icon color={"#ABABAB"} name="image" size={170} /> */}
+                    <Image source={require('../assets/ta_quebrando_build.png')}></Image>
                 </View>
-            }
-            <View style={{ position: "absolute", top: (Dimensions.get("window").height * 0.5) - 170, opacity: 0.6 }}>
-                <Icon color={"#ABABAB"} name="image" size={170} />
+
+                <DraggableFlatList
+                    onDragEnd={({ data }) => setImageList(data)}
+                    data={imageList}
+                    keyExtractor={(item, index) => `${item.name}-${index}`}
+                    renderItem={({ item, index, isActive, drag }) => <ImageItem
+                        isActive={isActive}
+                        drag={drag}
+                        onPressUp={onPressUp}
+                        onPressDown={onPressDown}
+                        onPressRemove={onPressRemove}
+                        index={index}
+                        onError={onError}
+                        width={item.width}
+                        height={item.height}
+                        name={item.filename}
+                        source={{ uri: item.path }} />}
+                />
+
+                <View style={{ marginVertical: 5, width: '90%', opacity: convertStatus.status === "pending" ? 0.6 : 1 }}>
+                    <Button color={"#B0B0B0"} onPress={escolher} title={'Choose images'} />
+                </View>
+
+                <View style={{ marginVertical: 5, width: '90%', opacity: convertStatus.status === "pending" ? 0.4 : 1 }}>
+                    <Button color={"#B0B0B0"} onPress={converter} title={'Convert'} />
+                </View>
+
+
+
+
+                <ConvertModal onRequestClose={onRequestClose} convertStatus={convertStatus.status} convertMessage={convertStatus.convertMessage} />
+                <Ad screen={"home"} size={"BANNER"} type={"banner"} />
             </View>
-
-            <DraggableFlatList
-                onDragEnd={({ data }) => setImageList(data)}
-                data={imageList}
-                keyExtractor={(item, index) => `${item.name}-${index}`}
-                renderItem={({ item, index, isActive, drag }) => <ImageItem
-                    isActive={isActive}
-                    drag={drag}
-                    onPressUp={onPressUp}
-                    onPressDown={onPressDown}
-                    onPressRemove={onPressRemove}
-                    index={index}
-                    onError={onError}
-                    width={item.width}
-                    height={item.height}
-                    name={item.filename}
-                    source={{ uri: item.path }} />}
-            />
-
-            <View style={{ marginVertical: 5, width: '90%', opacity: convertStatus.status === "pending" ? 0.6 : 1 }}>
-                <Button color={"#B0B0B0"} onPress={escolher} title={'Choose images'} />
-            </View>
-
-            <View style={{ marginVertical: 5, width: '90%', opacity: convertStatus.status === "pending" ? 0.4 : 1 }}>
-                <Button color={"#B0B0B0"} onPress={converter} title={'Convert'} />
-            </View>
-
-
-
-
-            <ConvertModal onRequestClose={onRequestClose} convertStatus={convertStatus.status} convertMessage={convertStatus.convertMessage} />
-            <Ad screen={"home"} size={"BANNER"} type={"banner"} />
-        </View>
+        
     )
 }
 

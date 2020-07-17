@@ -21,12 +21,14 @@ const Ad = ({ size, type = "banner", screen }) => {
     }
     let adUnitId = keys[screen];
     // let adUnitId = __DEV__ ? TestIds.BANNER : keys[screen];
-
+    const onAdFailedToLoad = (err) => {
+        console.log('add failed to load', err)
+    }
 
     if (type === "banner") {
         return (
             <View >
-                <BannerAd size={size} unitId={adUnitId} />
+                <BannerAd onAdFailedToLoad={onAdFailedToLoad} size={size} unitId={adUnitId} />
             </View>
         )
     }
