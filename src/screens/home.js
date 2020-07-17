@@ -211,14 +211,6 @@ const HomeScreen = (props) => {
         console.log(error)
     }
 
-    // useEffect(() => {
-    //     if (convertStatus.status === "resolved") {
-    //         const android = RNFetchBlob.android;
-    //         android.actionViewIntent(convertPath, "application/pdf")
-    //     }
-    // }, [convertStatus])
-
-
     React.useLayoutEffect(() => {
         props.navigation.setOptions({
             // in your app, extract the arrow function into a separate component
