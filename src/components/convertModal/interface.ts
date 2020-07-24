@@ -12,4 +12,5 @@ export interface ConvertModalProps {
   convertStatus: string;
   convertMessage: string;
   onRequestClose: () => void;
+  adScreen: string;
 }

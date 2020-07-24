@@ -6,7 +6,7 @@ import Ad from '../ad';
 import styles from './styles';
 import {ConvertModalProps} from './interface';
 const ConvertModal = (props: ConvertModalProps) => {
-  const {convertStatus, convertMessage, onRequestClose} = props;
+  const {convertStatus, convertMessage, onRequestClose, adScreen} = props;
 
   return (
     <Modal
@@ -26,13 +26,7 @@ const ConvertModal = (props: ConvertModalProps) => {
             />
           </View>
           <View>
-            <Ad
-              screen={
-                convertStatus === 'rejected' ? 'failModal' : 'successModal'
-              }
-              size={'MEDIUM_RECTANGLE'}
-              type={'banner'}
-            />
+            <Ad screen={adScreen} size={'MEDIUM_RECTANGLE'} type={'banner'} />
           </View>
 
           <View style={styles.buttonContainer}>
