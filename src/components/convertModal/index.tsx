@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import { View, Image, Text, Dimensions, TouchableOpacity, TouchableWithoutFeedback, Modal, Button } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import Ad from './ad'
+import Ad from '../ad'
 
 const ConvertModal = ({ convertStatus, convertMessage, onRequestClose }) => {
     useEffect(() => {
