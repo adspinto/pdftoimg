@@ -1,37 +1,28 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
   Button,
-  FlatList,
   PermissionsAndroid,
-  Modal,
-  Linking,
   Dimensions,
   Platform,
   LayoutAnimation,
   UIManager,
-  ActivityIndicator,
-  Image,
 } from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
 import ImageItem from '../../components/imageItem';
 import RNFetchBlob from 'rn-fetch-blob';
-import PDFLib, {PDFDocument, PDFPage} from 'react-native-pdf-lib';
-import _ from 'lodash';
+import {PDFDocument, PDFPage} from 'react-native-pdf-lib';
 import ImageSize from 'react-native-image-size';
-import {
-  HeaderButtons,
-  HeaderButton,
-  Item,
-  HiddenItem,
-  OverflowMenu,
-} from 'react-navigation-header-buttons';
+import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import ConvertModal from '../../components/convertModal';
 import {Bar} from 'react-native-progress';
 import Ad from '../../components/ad';
+import {HomeScreenProps} from './interface';
+import styles from './styles';
+import VectorIconsHeaderButton from '../../components/icons/vectorIconsHeaderButton';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -39,13 +30,7 @@ if (Platform.OS === 'android') {
   }
 }
 
-const VectorIconsHeaderButton = (props) => (
-  // the `props` here come from <Item ... />
-  // you may access them and pass something else to `HeaderButton` if you like
-  <HeaderButton {...props} IconComponent={Icon} iconSize={23} />
-);
-
-const HomeScreen = (props) => {
+const HomeScreen = (props: HomeScreenProps) => {
   const [imageList, setImageList] = useState([]);
   // const [convertEnd, setConvertEnd] = useState(false);
   const [convertPath, setConvertPath] = useState('');
@@ -66,19 +51,20 @@ const HomeScreen = (props) => {
       res.map((item, index) => {
         RNFetchBlob.fs
           .stat(item.uri)
-          .then((res) => {
+          .then((response: any) => {
             console.log('RNFetchBlob.fs.stat', res);
             let file = 'file://';
-            res.realPath = res.path;
-            res.path = file + res.path;
+            response.realPath = response.path;
+            response.path = file + response.path;
 
-            ImageSize.getSize(res.path).then((size) => {
+            ImageSize.getSize(response.path).then((size) => {
               // size.height
               // size.width
-              res.width = size.width;
-              res.height = size.height;
-              res.index = index;
-              setImageList((prevImageList) => [...prevImageList, res]);
+              console.log(size);
+              response.width = size.width;
+              response.height = size.height;
+              response.index = index;
+              setImageList((prevImageList) => [...prevImageList, response]);
             });
           })
           .catch(console.log);
@@ -86,7 +72,7 @@ const HomeScreen = (props) => {
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         // User cancelled the picker, exit any dialogs or menus and move on
-        console.log('DOcument picker cancelled by the user');
+        console.log('Document picker cancelled by the user');
       } else {
         throw err;
       }
@@ -99,16 +85,14 @@ const HomeScreen = (props) => {
       PermissionsAndroid.check(
         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
       ).then((permission) => {
-        console.log('permission', permission);
         if (permission) {
           pickFiles();
         } else {
           PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
           )
-            .then((permission) => {
-              console.log(permission);
-              if (permission == 'granted') {
+            .then((perm) => {
+              if (perm === 'granted') {
                 pickFiles();
               }
             })
@@ -141,22 +125,23 @@ const HomeScreen = (props) => {
 
       setConvertPath(pathToWrite);
 
-      const {width, height} = Dimensions.get('screen');
+      const {width} = Dimensions.get('screen');
 
       let document = PDFDocument.create(pathToWrite);
       setProgress(0.1);
-      let pageList = [...imageList].map((item, index) => {
+
+      [...imageList].map((item: any) => {
         let computedWidth = (width / item.width) * item.width;
         let computedHeight = (item.height * computedWidth) / item.width;
-
-        let settings = {
+        console.log(computedHeight, computedWidth);
+        let settings: any = {
           width: computedWidth,
           height: computedHeight,
         };
 
-        let page = PDFPage.create()
+        let page: any = PDFPage.create()
           .setMediaBox(computedWidth, computedHeight)
-          .drawImage(`${item.realPath}`, 'png', settings);
+          .drawImage(`${item.realPath}`, 'png', settings); //if png is removed it wont convert
 
         document.addPages(page);
       });
@@ -179,7 +164,7 @@ const HomeScreen = (props) => {
                 convertMessage: 'Images converted successfully!',
               });
             })
-            .catch((err) => {
+            .catch(() => {
               LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
               setConvertStatus({
                 status: 'rejected',
@@ -187,11 +172,11 @@ const HomeScreen = (props) => {
               });
             });
         } else {
-          RNFetchBlob.fs.writeFile(pathToWrite, '1').then((res) => {
+          RNFetchBlob.fs.writeFile(pathToWrite, '1').then(() => {
             setProgress(0.8);
             document
               .write()
-              .then((path) => {
+              .then(() => {
                 setProgress(1);
                 LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
                 setConvertStatus({
@@ -199,7 +184,7 @@ const HomeScreen = (props) => {
                   convertMessage: 'Images converted successfully!',
                 });
               })
-              .catch((err) => {
+              .catch(() => {
                 LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
                 setConvertStatus({
                   status: 'rejected',
@@ -210,6 +195,7 @@ const HomeScreen = (props) => {
         }
       });
     } catch (err) {
+      console.log(err);
       LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
       setConvertStatus({
         status: 'rejected',
@@ -217,7 +203,7 @@ const HomeScreen = (props) => {
       });
     }
   };
-  const onError = (error) => {
+  const onError = (error: any) => {
     console.log(error);
   };
 
@@ -238,25 +224,25 @@ const HomeScreen = (props) => {
     });
   }, [props.navigation]);
 
-  const onPressRemove = (index) => {
+  const onPressRemove = (index: number) => {
     setImageList(imageList.filter((item, i) => i !== index));
   };
 
-  const onPressUp = (index) => {
+  const onPressUp = (index: number) => {
     if (index < imageList.length - 1) {
-      let nextArray = arrayMove([...imageList], index, index + 1);
+      let nextArray: any = arrayMove([...imageList], index, index + 1);
       setImageList(nextArray);
     }
   };
 
-  const onPressDown = (index) => {
+  const onPressDown = (index: number) => {
     if (index > 0) {
-      let nextArray = arrayMove([...imageList], index, index - 1);
+      let nextArray: any = arrayMove([...imageList], index, index - 1);
       setImageList(nextArray);
     }
   };
 
-  const arrayMove = (array, oldIndex, newIndex) => {
+  const arrayMove = (array: any[], oldIndex: number, newIndex: number) => {
     let nextArr = [...array];
     if (oldIndex >= nextArr.length) {
       var k = newIndex - nextArr.length + 1;
@@ -279,44 +265,30 @@ const HomeScreen = (props) => {
   };
 
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    <View style={styles.root}>
       {convertStatus.status === 'pending' && (
-        <View
-          style={{
-            position: 'absolute',
-            zIndex: 10,
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: Dimensions.get('screen').width,
-            height: Dimensions.get('screen').height,
-            backgroundColor: 'rgba(0,0,0,0.7)',
-          }}>
+        <View style={[styles.adContainer]}>
           <Ad screen={'loading'} size={'MEDIUM_RECTANGLE'} />
           <Bar
             color={'#fff'}
             progress={progress}
             useNativeDriver={true}
-            style={{margin: 10}}
+            style={styles.adBar}
             width={Dimensions.get('screen').width * 0.8}
             height={10}
           />
-          <Text style={{color: '#fff'}}>Converting...</Text>
+          <Text style={styles.converting}>Converting...</Text>
         </View>
       )}
-      <View
-        style={{
-          position: 'absolute',
-          top: Dimensions.get('window').height * 0.5 - 170,
-          opacity: 0.6,
-        }}>
+      <View style={styles.iconContainer}>
         <Icon color={'#ABABAB'} name="image" size={170} />
         {/* <Image style={{ width: '100%'}} resizeMode={'contain'} source={require('../assets/teste_paolla.png')}></Image> */}
       </View>
 
       <DraggableFlatList
-        onDragEnd={({data}) => setImageList(data)}
+        onDragEnd={({data}: {data: any}) => setImageList(data)}
         data={imageList}
-        keyExtractor={(item, index) => `${item.name}-${index}`}
+        keyExtractor={(item: any, index: number) => `${item.name}-${index}`}
         renderItem={({item, index, isActive, drag}) => (
           <ImageItem
             isActive={isActive}
@@ -335,11 +307,12 @@ const HomeScreen = (props) => {
       />
 
       <View
-        style={{
-          marginVertical: 5,
-          width: '90%',
-          opacity: convertStatus.status === 'pending' ? 0.6 : 1,
-        }}>
+        style={[
+          styles.buttonContainer,
+          {
+            opacity: convertStatus.status === 'pending' ? 0.6 : 1,
+          },
+        ]}>
         <Button
           color={'#B0B0B0'}
           onPress={escolher}
@@ -348,11 +321,12 @@ const HomeScreen = (props) => {
       </View>
 
       <View
-        style={{
-          marginVertical: 5,
-          width: '90%',
-          opacity: convertStatus.status === 'pending' ? 0.4 : 1,
-        }}>
+        style={[
+          styles.buttonContainer,
+          {
+            opacity: convertStatus.status === 'pending' ? 0.4 : 1,
+          },
+        ]}>
         <Button
           color={'#B0B0B0'}
           onPress={converter}
@@ -365,7 +339,7 @@ const HomeScreen = (props) => {
         convertStatus={convertStatus.status}
         convertMessage={convertStatus.convertMessage}
       />
-      <View style={{height: 50, justifyContent: 'center'}}>
+      <View style={styles.bottomAdContainer}>
         <Ad screen={'home'} size={'BANNER'} type={'banner'} />
       </View>
     </View>

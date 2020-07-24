@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useEffect, useCallback, useState} from 'react';
 import {
   View,
   Image,
@@ -8,73 +8,80 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import styles from './styles';
+import {ImageItemProps} from './interface';
 
-const ImageItem = (props) => {
-  const itemHeight = props.height;
-  const itemWidth = props.width;
+const ImageItem = (props: ImageItemProps) => {
   const {width, height} = Dimensions.get('screen');
+  const {
+    height: itemHeight,
+    width: itemWidth,
+    onError,
+    onPressDown,
+    onPressRemove,
+    onPressUp,
+    name,
+    index,
+    source,
+    drag,
+    isActive,
+  } = props;
+  const [sizes, setSizes] = useState({
+    width: 0,
+    height: 0,
+  });
 
-  let computedWidth =
-    itemWidth > width ? (width / itemWidth) * itemWidth * 0.8 : itemWidth * 0.8;
-  let computedHeight =
-    itemHeight > height
-      ? ((itemHeight * computedWidth) / itemWidth) * 0.8
-      : itemHeight * 0.8;
+  const calculateStyleOverride = useCallback(() => {
+    let computedWidth =
+      itemWidth > width
+        ? (width / itemWidth) * itemWidth * 0.8
+        : itemWidth * 0.8;
+    let computedHeight =
+      itemHeight > height
+        ? ((itemHeight * computedWidth) / itemWidth) * 0.8
+        : itemHeight * 0.8;
+
+    setSizes({height: computedHeight, width: computedWidth});
+  }, [itemWidth, width, itemHeight, height]);
+
+  useEffect(() => {
+    calculateStyleOverride();
+  }, [itemWidth, itemHeight, calculateStyleOverride]);
 
   return (
-    <TouchableWithoutFeedback onLongPress={props.drag}>
-      <View
-        style={{
-          backgroundColor: props.isActive ? '#D6EAF8' : '#fff',
-          borderRadius: 4,
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.84,
-          elevation: 5,
-          flex: 1,
-          padding: 10,
-          margin: 10,
-        }}>
-        <View style={{alignSelf: 'flex-end'}}>
+    <TouchableWithoutFeedback onLongPress={drag}>
+      <View style={[styles.container, isActive ? styles.containerActive : {}]}>
+        <View style={styles.iconContainer}>
           <TouchableOpacity
-            onPress={() => props.onPressRemove(props.index)}
-            style={{margin: 5}}>
+            onPress={() => onPressRemove(index)}
+            style={styles.touchableMargin}>
             <Icon color={'#ABABAB'} name="times-circle" size={23} />
           </TouchableOpacity>
         </View>
 
-        <View
-          style={{
-            height: computedHeight,
-            width: computedWidth,
-            marginVertical: 10,
-          }}>
+        <View style={[styles.imageMargin, sizes]}>
           <Image
             resizeMode={'contain'}
-            style={{width: '100%', height: '100%'}}
-            onError={props.onError}
-            source={props.source}
+            style={styles.image}
+            onError={onError}
+            source={source}
           />
         </View>
-        <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+        <View style={styles.textContainer}>
+          <View style={styles.textSubContainer}>
             <TouchableOpacity
-              onPress={() => props.onPressDown(props.index)}
-              style={{margin: 5}}>
+              onPress={() => onPressDown(index)}
+              style={styles.touchableMargin}>
               <Icon color={'#ABABAB'} name="chevron-circle-up" size={23} />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => props.onPressUp(props.index)}
-              style={{margin: 5}}>
+              onPress={() => onPressUp(index)}
+              style={styles.touchableMargin}>
               <Icon color={'#ABABAB'} name="chevron-circle-down" size={23} />
             </TouchableOpacity>
           </View>
           <View>
-            <Text>{props.name}</Text>
+            <Text>{name}</Text>
           </View>
         </View>
       </View>

@@ -1315,6 +1315,11 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
   integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
 
+"@types/react-native-pdf-lib@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@types/react-native-pdf-lib/-/react-native-pdf-lib-0.2.0.tgz#bf2b1ca827a2cfb983aa4e95ca4f3d8e93a1a62b"
+  integrity sha512-8wGViBU//ZL9lUAEEZhuaAAzktQa5YwFdH7HnvRT7Ekw1KvtaEojjw7a/6/OOSwJSX2gjvCkdMbqm40sJ3DY4w==
+
 "@types/react-native-vector-icons@^6.4.5":
   version "6.4.5"
   resolved "https://registry.yarnpkg.com/@types/react-native-vector-icons/-/react-native-vector-icons-6.4.5.tgz#74cbfc564bd8435e43ad6728572a0e5b49c335d1"

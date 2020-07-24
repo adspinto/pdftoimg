@@ -15,6 +15,7 @@
     "@react-native-firebase/app": "^8.2.0",
     "@react-navigation/native": "^5.5.0",
     "@react-navigation/stack": "^5.7.1",
+    "@types/react-native-pdf-lib": "^0.2.0",
     "lodash": "^4.17.19",
     "react": "^16.13.1",
     "react-native": "^0.63.2",

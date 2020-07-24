@@ -12,12 +12,13 @@ import {
   InterstitialAd,
   RewardedAd,
   BannerAd,
-  BannerAdSize,
   TestIds,
 } from '@react-native-firebase/admob';
+import {AdProps} from './interface';
 
-const Ad = ({size, type = 'banner', screen}) => {
-  let keys = {
+const Ad = (props: AdProps) => {
+  const {size, type = 'banner', screen} = props;
+  let keys: any = {
     home: BANNER_KEY_HOME,
     loading: BANNER_KEY_LOADING,
     failModal: BANNER_KEY_FAIL_MODAL,
@@ -26,6 +27,7 @@ const Ad = ({size, type = 'banner', screen}) => {
   };
   let adUnitId = keys[screen];
   // let adUnitId = __DEV__ ? TestIds.BANNER : keys[screen];
+
   const onAdFailedToLoad = (err) => {
     console.log('add failed to load', err);
   };
