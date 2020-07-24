@@ -1,8 +1,5 @@
 import React, {useState} from 'react';
 import {
-  View,
-  Text,
-  Button,
   PermissionsAndroid,
   Dimensions,
   Platform,
@@ -10,18 +7,13 @@ import {
   UIManager,
 } from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
-import ImageItem from '../../components/imageItem';
+
 import RNFetchBlob from 'rn-fetch-blob';
 import {PDFDocument, PDFPage} from 'react-native-pdf-lib';
 import ImageSize from 'react-native-image-size';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import DraggableFlatList from 'react-native-draggable-flatlist';
-import ConvertModal from '../../components/convertModal';
-import {Bar} from 'react-native-progress';
-import Ad from '../../components/ad';
-import {HomeScreenProps} from './interface';
-import styles from './styles';
+import {ImageToPdfProps} from './interface';
+
 import VectorIconsHeaderButton from '../../components/icons/vectorIconsHeaderButton';
 import ImageToPdfview from './view';
 if (Platform.OS === 'android') {
@@ -30,7 +22,7 @@ if (Platform.OS === 'android') {
   }
 }
 
-const ImageToPdf = (props: HomeScreenProps) => {
+const ImageToPdf = (props: ImageToPdfProps) => {
   const [imageList, setImageList] = useState([]);
   // const [convertEnd, setConvertEnd] = useState(false);
   const [convertPath, setConvertPath] = useState('');
@@ -64,7 +56,7 @@ const ImageToPdf = (props: HomeScreenProps) => {
               response.width = size.width;
               response.height = size.height;
               response.index = index;
-              console.log(response)
+              console.log(response);
               setImageList((prevImageList) => [...prevImageList, response]);
             });
           })

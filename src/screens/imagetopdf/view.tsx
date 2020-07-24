@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -9,10 +9,7 @@ import {
 } from 'react-native';
 
 import ImageItem from '../../components/imageItem';
-import RNFetchBlob from 'rn-fetch-blob';
-import {PDFDocument, PDFPage} from 'react-native-pdf-lib';
-import ImageSize from 'react-native-image-size';
-import {HeaderButtons, Item} from 'react-navigation-header-buttons';
+
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import ConvertModal from '../../components/convertModal';
@@ -20,7 +17,6 @@ import {Bar} from 'react-native-progress';
 import Ad from '../../components/ad';
 import {ImageToPdfViewProps} from './interface';
 import styles from './styles';
-import VectorIconsHeaderButton from '../../components/icons/vectorIconsHeaderButton';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {

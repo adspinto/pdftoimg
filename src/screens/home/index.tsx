@@ -1,7 +1,6 @@
 import React, {useCallback} from 'react';
 import {View} from 'react-native';
 import {HomeScreenProps} from './interface';
-import styles from './styles';
 import HomeView from './view';
 
 const HomeScreen = (props: HomeScreenProps) => {

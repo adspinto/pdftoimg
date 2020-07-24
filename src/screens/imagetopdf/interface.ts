@@ -2,7 +2,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {ViewStyle, TextStyle, ImageStyle} from 'react-native';
 
 export interface ImageToPdfProps {
-  navigation: StackNavigationProp<any, 'Home'>;
+  navigation: StackNavigationProp<any, 'ImageToPdf'>;
 }
 
 export interface IStyles {
