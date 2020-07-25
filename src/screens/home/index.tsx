@@ -7,7 +7,6 @@ const HomeScreen = (props: HomeScreenProps) => {
   const {navigation} = props;
   const onPressSubmit = useCallback(
     (route) => {
-      console.log(route);
       if (route === 'conversor') {
         navigation.navigate('ImageToPdf');
       }

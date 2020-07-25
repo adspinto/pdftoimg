@@ -44,7 +44,7 @@ const ImageToPdfView = (props: ImageToPdfViewProps) => {
     <View style={styles.root}>
       {status === 'pending' && (
         <View style={[styles.adContainer]}>
-          <Ad screen={'loading'} size={'MEDIUM_RECTANGLE'} />
+          <Ad screen={'imgtopdfscreenloading'} size={'MEDIUM_RECTANGLE'} />
           <Bar
             color={'#fff'}
             progress={progress}

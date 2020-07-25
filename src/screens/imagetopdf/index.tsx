@@ -126,7 +126,7 @@ const ImageToPdf = (props: ImageToPdfProps) => {
       [...imageList].map((item: any) => {
         let computedWidth = (width / item.width) * item.width;
         let computedHeight = (item.height * computedWidth) / item.width;
-        console.log(computedHeight, computedWidth);
+
         let settings: any = {
           width: computedWidth,
           height: computedHeight,
@@ -144,7 +144,6 @@ const ImageToPdf = (props: ImageToPdfProps) => {
       RNFetchBlob.fs.exists(pathToWrite).then((exist) => {
         setProgress(0.2);
         if (exist) {
-          console.log(exist, 'exist');
           setProgress(0.4);
           document
             .write()
@@ -188,7 +187,6 @@ const ImageToPdf = (props: ImageToPdfProps) => {
         }
       });
     } catch (err) {
-      console.log(err);
       LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
       setConvertStatus({
         status: 'rejected',
