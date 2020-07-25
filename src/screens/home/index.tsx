@@ -10,6 +10,9 @@ const HomeScreen = (props: HomeScreenProps) => {
       if (route === 'conversor') {
         navigation.navigate('ImageToPdf');
       }
+      if (route === 'scanner') {
+        navigation.navigate('Scanner');
+      }
     },
     [navigation],
   );
