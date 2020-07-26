@@ -42,11 +42,6 @@ const styles = StyleSheet.create<IStyles>({
     top: 0,
     backgroundColor: 'white',
   },
-  blurred: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
 });
 
 export default styles;

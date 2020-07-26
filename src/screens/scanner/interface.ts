@@ -14,6 +14,7 @@ export interface IStyles {
   cameraButton: ViewStyle;
   cameraSubButton: ViewStyle;
   overlay: ViewStyle;
+  blurred: ViewStyle;
 }
 export interface ScannerViewProps {
   camera: any;
@@ -24,7 +25,16 @@ export interface ScannerViewProps {
     croppedImage: any;
     initialImage: any;
   }) => void;
-  takePicture: () => void;
-  triggerSnapAnimation: () => void;
-  overlayFlashOpacity: any;
+  takePicture: (event: any) => any;
+  getPreviewSize: () => any;
+  onRectangleDetected: (detectedRectangle: any) => any;
+  detectedRectangle: any;
+  onPictureTaken: ({
+    croppedImage,
+    initialImage,
+  }: {
+    croppedImage: string;
+    initialImage: string;
+  }) => any;
+  screenStatus: string;
 }

@@ -1,5 +1,5 @@
 import React, {useState, useRef, useCallback, useEffect} from 'react';
-import {Platform, UIManager, Animated} from 'react-native';
+import {Platform, UIManager, Animated, Dimensions} from 'react-native';
 
 import {ScannerProps} from './interface';
 import ScannerView from './view';
@@ -11,10 +11,20 @@ if (Platform.OS === 'android') {
 }
 
 const Scanner = (props: ScannerProps) => {
+  const {navigation} = props;
   const cameraRef = useRef();
-  const [overlayFlashOpacity, setOverlayFlashOpacity] = useState({
-    opacity: new Animated.Value(0),
+  const [device, setDevice] = useState({
+    initialized: false,
+    hasCamera: false,
+    permissionToUseCamera: false,
+    flashIsAvailable: false,
+    previewHeightPercent: 1,
+    previewWidthPercent: 1,
   });
+
+  const [detectedRectangle, setDetectedRectangle] = useState(false);
+  const [enableAutoDetect, setEnableAutoDetect] = useState(false);
+  const [screenStatus, setScreenStatus] = useState('blurred');
 
   const handleOnPictureProcessed = ({
     croppedImage,
@@ -23,53 +33,88 @@ const Scanner = (props: ScannerProps) => {
     croppedImage: any;
     initialImage: any;
   }) => {
-    console.log(croppedImage, initialImage);
+    console.log({croppedImage, initialImage}, 'testezin');
   };
 
-  const takePicture = () => {
-    console.log('takePicture');
-    triggerSnapAnimation();
+  const takePicture = (event) => {
+    console.log('takePicture', cameraRef.current);
+    console.log('event', event.nativeEvent);
+    cameraRef.current.capture();
   };
 
-  const triggerSnapAnimation = () => {
-    console.log('triggerSnapAnimation');
+  const getPreviewSize = () => {
+    const dimensions = Dimensions.get('window');
+    // We use set margin amounts because for some reasons the percentage values don't align the camera preview in the center correctly.
+    const heightMargin =
+      ((1 - device.previewHeightPercent) * dimensions.height) / 2;
+    const widthMargin =
+      ((1 - device.previewWidthPercent) * dimensions.width) / 2;
+    if (dimensions.height > dimensions.width) {
+      // Portrait
+      return {
+        height: device.previewHeightPercent,
+        width: device.previewWidthPercent,
+        marginTop: heightMargin,
+        marginLeft: widthMargin,
+      };
+    }
 
-    Animated.sequence([
-      Animated.timing(overlayFlashOpacity.opacity, {
-        toValue: 0.2,
-        duration: 100,
-        useNativeDriver: true,
-      }),
-      Animated.timing(overlayFlashOpacity.opacity, {
-        toValue: 0,
-        duration: 50,
-        useNativeDriver: true,
-      }),
-      Animated.timing(overlayFlashOpacity.opacity, {
-        toValue: 0.6,
-        delay: 100,
-        duration: 120,
-        useNativeDriver: true,
-      }),
-      Animated.timing(overlayFlashOpacity.opacity, {
-        toValue: 0,
-        duration: 90,
-        useNativeDriver: true,
-      }),
-    ]).start();
+    // Landscape
+    return {
+      width: device.previewHeightPercent,
+      height: device.previewWidthPercent,
+      marginTop: widthMargin,
+      marginLeft: heightMargin,
+    };
+  };
+
+  const onRectangleDetected = useCallback(
+    (detected: any) => {
+      if (enableAutoDetect) {
+        setDetectedRectangle(detected);
+      }
+    },
+    [enableAutoDetect],
+  );
+
+  const onPictureTaken = ({
+    croppedImage,
+    initialImage,
+  }: {
+    croppedImage: string;
+    initialImage: string;
+  }) => {
+    navigation.navigate('Cropper', {croppedImage, initialImage});
+    console.log('picture taken');
   };
 
   useEffect(() => {
-    console.log(overlayFlashOpacity);
-  }, [overlayFlashOpacity]);
+    const onFocus = navigation.addListener('focus', () => {
+      setScreenStatus('blurred');
+      setTimeout(() => {
+        setScreenStatus('focused');
+      }, 500);
+    });
+    // const onBlur = navigation.addListener('blur', () => {
+    //   setScreenStatus('blurred');
+    // });
 
+    return () => {
+      navigation.removeListener('focus', onFocus);
+      // navigation.removeListener('blur', onBlur);
+    };
+  }, [navigation]);
   return (
     <ScannerView
-      cameraRef={cameraRef}
-      overlayFlashOpacity={overlayFlashOpacity}
+      // cameraRef={cameraRef}
       handleOnPictureProcessed={handleOnPictureProcessed}
-      triggerSnapAnimation={triggerSnapAnimation}
       takePicture={takePicture}
+      onPictureTaken={onPictureTaken}
+      getPreviewSize={getPreviewSize}
+      detectedRectangle={detectedRectangle}
+      onRectangleDetected={onRectangleDetected}
+      // screenStatus={'blurred'}
+      screenStatus={screenStatus}
     />
   );
 };

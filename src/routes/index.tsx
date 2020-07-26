@@ -4,6 +4,7 @@ import HomeScreen from '../screens/home';
 import SplashScreen from '../screens/splash';
 import ImageToPdf from '../screens/imagetopdf';
 import Scanner from '../screens/scanner';
+import Cropper from '../screens/cropper';
 const {Navigator, Screen} = createStackNavigator();
 
 function Routes() {
@@ -30,6 +31,11 @@ function Routes() {
         name="Scanner"
         component={Scanner}
         options={{title: 'Scanner', headerShown: false}}
+      />
+      <Screen
+        name="Cropper"
+        component={Cropper}
+        options={{title: 'Cropper', headerShown: false}}
       />
     </Navigator>
   );
