@@ -1,6 +1,6 @@
 import React, {useState, useRef, useCallback, useEffect} from 'react';
 import {Platform, UIManager, Animated, Dimensions} from 'react-native';
-
+import OpenCV from '../../../OpenCV';
 import {ScannerProps} from './interface';
 import ScannerView from './view';
 
@@ -36,10 +36,25 @@ const Scanner = (props: ScannerProps) => {
     console.log({croppedImage, initialImage}, 'testezin');
   };
 
-  const takePicture = (event) => {
+  const errorCallback = (error) => {
+    console.log('error', error);
+  };
+  const successCallback = (success, m, x) => {
+    console.log('success', success, m, x);
+  };
+  const takePicture = () => {
     console.log('takePicture', cameraRef.current);
-    console.log('event', event.nativeEvent);
-    cameraRef.current.capture();
+    const options = {quality: 0.5, base64: true};
+    cameraRef.current
+      .takePictureAsync()
+      .then((pic) => {
+        console.log(pic);
+
+        // OpenCV.checkForBlurryImage(pic.base64, errorCallback, successCallback);
+        OpenCV.detectCorners(pic.uri, errorCallback, successCallback);
+        // navigation.navigate('Cropper', {uri: pic.uri});
+      })
+      .catch((err) => console.log(err));
   };
 
   const getPreviewSize = () => {
@@ -104,9 +119,11 @@ const Scanner = (props: ScannerProps) => {
       // navigation.removeListener('blur', onBlur);
     };
   }, [navigation]);
+
+  console.log(OpenCV);
   return (
     <ScannerView
-      // cameraRef={cameraRef}
+      cameraRef={cameraRef}
       handleOnPictureProcessed={handleOnPictureProcessed}
       takePicture={takePicture}
       onPictureTaken={onPictureTaken}

@@ -15,7 +15,7 @@ const Cropper = (props: CropperProps) => {
 
   console.log(navigation, route);
 
-  return <CropperView source={route.params.initialImage} />;
+  return <CropperView source={route.params.uri} />;
 };
 
 export default Cropper;

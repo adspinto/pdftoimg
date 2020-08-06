@@ -28,8 +28,15 @@ const CropperView = (props: CropperViewProps) => {
   return (
     <View style={styles.root}>
       <Text>Cropper</Text>
-      <View style={{flex: 1, borderWidth: 1, borderColor: 'red', width: 414}}>
-        <Image style={{width: '100%'}} source={{uri: source}} />
+      <View
+        style={{
+          flex: 1,
+          borderWidth: 1,
+          borderColor: 'red',
+          width: 414,
+          height: 800,
+        }}>
+        <Image style={{width: '100%', height: '100%'}} source={{uri: source}} />
       </View>
     </View>
   );

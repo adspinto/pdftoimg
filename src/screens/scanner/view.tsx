@@ -7,6 +7,7 @@ import {
   Platform,
   Animated,
   ActivityIndicator,
+  Text,
 } from 'react-native';
 import {ScannerViewProps} from './interface';
 import styles from './styles';
@@ -16,6 +17,7 @@ import styles from './styles';
 // } from 'react-native-rectangle-scanner';
 import {useFocusEffect} from '@react-navigation/native';
 import Ad from '../../components/ad';
+import {RNCamera} from 'react-native-camera';
 
 // import Animated from 'react-native-reanimated';
 
@@ -39,44 +41,22 @@ const ScannerView = (props: ScannerViewProps) => {
 
   const previewSize = getPreviewSize();
 
-  if (screenStatus === 'blurred') {
-    return (
-      <View style={styles.blurred}>
-        <ActivityIndicator size={40} color={'black'} />
-      </View>
-    );
-  }
+  // if (screenStatus === 'blurred') {
+  //   return (
+  //     <View style={styles.blurred}>
+  //       <ActivityIndicator size={40} color={'black'} />
+  //     </View>
+  //   );
+  // }
 
   return (
     <View style={styles.root}>
-      <StatusBar backgroundColor="black" barStyle="light-content" />
-      <View style={styles.scannerContainer}>
-        {/* <Scanner
-          onPictureTaken={onPictureTaken}
-          onPictureProcessed={handleOnPictureProcessed}
-          ref={cameraRef}
-          style={styles.scanner}
-          // onRectangleDetected={({detectedRectangle}) =>
-          //   onRectangleDetected(detectedRectangle)
-          // }
-          capturedQuality={0.1}
-          // enableTorch={true}
-        /> */}
-      </View>
-
-      {/* <RectangleOverlay
-        detectedRectangle={detectedRectangle}
-        previewRatio={previewSize}
-        backgroundColor="rgba(255,181,6, 0.2)"
-        borderColor="rgb(255,181,6)"
-        borderWidth={4}
-        // == These let you auto capture and change the overlay style on detection ==
-        // detectedBackgroundColor="rgba(255,181,6, 0.3)"
-        // detectedBorderWidth={6}
-        // detectedBorderColor="rgb(255,218,124)"
-        // onDetectedCapture={this.capture}
-        // allowDetection
-      /> */}
+      <RNCamera
+        ref={cameraRef}
+        style={styles.scannerContainer}
+        captureAudio={false}
+        
+      />
 
       <View style={styles.controlsContainer}>
         <TouchableOpacity onPress={takePicture}>

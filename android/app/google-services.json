@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "486528490342",
+    "firebase_url": "https://imagetopdf-22c23.firebaseio.com",
+    "project_id": "imagetopdf-22c23",
+    "storage_bucket": "imagetopdf-22c23.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:486528490342:android:1a3f88a5f0c451fa5446a7",
+        "android_client_info": {
+          "package_name": "com.pdftoimg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "486528490342-9s2lncg5ps94lo69hs8oebnkta33s0hh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOb0QmDOttzn5N-8A9gOPCpYGaKUmmIzM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "486528490342-9s2lncg5ps94lo69hs8oebnkta33s0hh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

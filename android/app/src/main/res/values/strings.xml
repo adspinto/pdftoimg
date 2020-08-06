@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Image to PDF</string>
-    <string moduleConfig="true" name="CodePushDeploymentKey">_hvnzllJXSlXbddejKjGShnZIUk91GelMcuTDx</string>
+    <string name="CodePushDeploymentKey" moduleConfig="true">_hvnzllJXSlXbddejKjGShnZIUk91GelMcuTDx</string>
+
+    <string name="title_activity_hello_open_cv">HelloOpenCvActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

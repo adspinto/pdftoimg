@@ -4,8 +4,8 @@ import {IStyles} from './interface';
 import {colors, scale} from '../../utils';
 
 const styles = StyleSheet.create<IStyles>({
-  root: {flex: 1, alignItems: 'center'},
-  scannerContainer: {flex: 1, width},
+  root: {flex: 1},
+  scannerContainer: {flex: 1, borderWidth: 1, borderColor: 'red'},
   scanner: {flex: 1},
   controlsContainer: {
     // justifyContent: 'space-between',
