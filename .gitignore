@@ -79,4 +79,4 @@ firebase.json
 .env
 android/gradle.properties
 
-/src/config/*
+src/config/*
