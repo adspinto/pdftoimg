@@ -39,7 +39,7 @@ const ImageToPdf = (props: ImageToPdfProps) => {
       const res = await DocumentPicker.pickMultiple({
         type: [DocumentPicker.types.images],
       });
-      // console.log(res);
+      console.log('res', res);
       res.map((item, index) => {
         RNFetchBlob.fs
           .stat(item.uri)
@@ -50,9 +50,6 @@ const ImageToPdf = (props: ImageToPdfProps) => {
             response.path = file + response.path;
 
             ImageSize.getSize(response.path).then((size) => {
-              // size.height
-              // size.width
-              console.log(size);
               response.width = size.width;
               response.height = size.height;
               response.index = index;
@@ -60,14 +57,25 @@ const ImageToPdf = (props: ImageToPdfProps) => {
               setImageList((prevImageList) => [...prevImageList, response]);
             });
           })
-          .catch(console.log);
+          .catch((err: any) => {
+            setConvertStatus({
+              status: 'rejected',
+              convertMessage:
+                'Erro ao tentar carregar a imagem \n Tente novamente.',
+            });
+            console.log('err no stat', err, err.response, err.data);
+          });
       });
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         // User cancelled the picker, exit any dialogs or menus and move on
         console.log('Document picker cancelled by the user');
       } else {
-        throw err;
+        setConvertStatus({
+          status: 'rejected',
+          convertMessage:
+            'Erro ao tentar carregar a imagem \n Tente novamente.',
+        });
       }
     }
   };
@@ -78,6 +86,7 @@ const ImageToPdf = (props: ImageToPdfProps) => {
       PermissionsAndroid.check(
         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
       ).then((permission) => {
+        console.log(permission);
         if (permission) {
           pickFiles();
         } else {

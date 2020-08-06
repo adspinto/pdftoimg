@@ -28,7 +28,7 @@ const HomeView = (props: HomeViewProps) => {
             containerStyle={styles.simpleButtonContainer}
           />
         </View>
-        <View style={styles.iconAndButtonContainer}>
+        {/* <View style={styles.iconAndButtonContainer}>
           <IonIcon size={100} color={'gray'} name={'scan-outline'} />
           <SimpleButton
             onPress={submitScanner}
@@ -36,7 +36,7 @@ const HomeView = (props: HomeViewProps) => {
             title={'Scanner'}
             containerStyle={styles.simpleButtonContainer}
           />
-        </View>
+        </View> */}
       </View>
       <View style={styles.bottomAdContainer}>
         <Ad screen={'home'} size={'BANNER'} type={'bannerBottom'} />
