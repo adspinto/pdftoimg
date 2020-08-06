@@ -78,3 +78,5 @@ awsconfiguration.json
 firebase.json
 .env
 android/gradle.properties
+
+/src/config/*
