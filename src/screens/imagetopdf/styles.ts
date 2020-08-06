@@ -1,7 +1,7 @@
 import {StyleSheet, Dimensions, Platform} from 'react-native';
 const {width, height} = Dimensions.get('screen');
 import {IStyles} from './interface';
-import {colors} from '../../utils';
+
 const styles = StyleSheet.create<IStyles>({
   adContainer: {
     position: 'absolute',
@@ -22,25 +22,6 @@ const styles = StyleSheet.create<IStyles>({
   },
   buttonContainer: {marginVertical: 5, width: '90%'},
   bottomAdContainer: {height: 50, justifyContent: 'center'},
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: height * 0.8,
-    flexDirection: 'row',
-  },
-  simpleButtonContainer: {
-    width: 150,
-    marginHorizontal: 10,
-    backgroundColor: colors.primary.gray,
-  },
-  iconAndButtonContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  rootContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
 });
 
 export default styles;
